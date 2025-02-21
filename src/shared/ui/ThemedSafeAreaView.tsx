@@ -1,4 +1,4 @@
-import { useThemeColor } from "@/components/shared/hooks/useThemeColor";
+import { useThemeColor } from "@/src/shared/hooks/useThemeColor";
 import {
 	SafeAreaView,
 	type SafeAreaViewProps,

@@ -1,5 +1,5 @@
 import { useColorScheme } from "./useColorScheme";
-import { Colors } from "@/components/shared/config/colors";
+import { Colors } from "@/src/shared/config/colors";
 
 export function useThemeColor(
 	colorName: keyof typeof Colors.light & keyof typeof Colors.dark,

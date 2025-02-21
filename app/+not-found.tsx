@@ -2,7 +2,7 @@ import type React from "react";
 import { Link, Stack } from "expo-router";
 import { StyleSheet } from "react-native";
 
-import { Text, ThemedSafeAreaView } from "@/components/shared/ui";
+import { Text, ThemedSafeAreaView } from "@/src/shared/ui";
 
 const NotFoundScreen: React.FC = () => {
 	return (

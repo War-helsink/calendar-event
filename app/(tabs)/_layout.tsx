@@ -1,11 +1,9 @@
 import { Tabs } from "expo-router";
-import React from "react";
+import { useThemeColor } from "@/src/shared/hooks/useThemeColor";
+import { AnimateIcon } from "@/src/shared/ui";
 
-import { useThemeColor } from "@/components/shared/hooks/useThemeColor";
-import { AnimateIcon } from "@/components/shared/ui";
-
-export default function TabLayout() {
-	const tabBarActiveTintColor = useThemeColor("tint");
+const TabLayout: React.FC = () => {
+	const tabBarActiveTintColor = useThemeColor("tabIconSelected");
 
 	return (
 		<Tabs
@@ -27,6 +25,21 @@ export default function TabLayout() {
 					),
 				}}
 			/>
+			<Tabs.Screen
+				name="schedule"
+				options={{
+					title: "Schedule",
+					tabBarIcon: ({ color, focused }) => (
+						<AnimateIcon
+							name={focused ? "calendar" : "calendar-outline"}
+							focused={focused}
+							color={color}
+						/>
+					),
+				}}
+			/>
 		</Tabs>
 	);
-}
+};
+
+export default TabLayout;

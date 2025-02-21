@@ -1,15 +1,15 @@
-import { EventForm } from "@/src/widgets/form";
+import { Agenda } from "@/src/features/calendar";
 import { ThemedSafeAreaView } from "@/src/shared/ui";
 
-const HomeScreen: React.FC = () => {
+const ScheduleScreen: React.FC = () => {
 	return (
 		<ThemedSafeAreaView
 			className="w-full h-full px-5 pb-5"
 			edges={["top", "left", "right"]}
 		>
-			<EventForm />
+			<Agenda />
 		</ThemedSafeAreaView>
 	);
 };
 
-export default HomeScreen;
+export default ScheduleScreen;
