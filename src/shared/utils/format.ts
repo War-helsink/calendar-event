@@ -1,4 +1,8 @@
-import type { DateFormat } from "../model";
+import type { DateFormat, ISOString } from "../model";
+
+export function formattedISOString(date: Date): ISOString {
+	return date.toISOString() as ISOString;
+}
 
 export function formattedTime(date: Date) {
 	return date.toLocaleTimeString("en-US", {

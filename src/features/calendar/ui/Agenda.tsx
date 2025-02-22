@@ -1,32 +1,41 @@
-import { useState } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
 import { Agenda as AgendaRN } from "react-native-calendars";
+import { Text } from "@/src/shared/ui";
+import {
+	type EventAgendaItem,
+	type EventAgendaData,
+	transformEventsForAgenda,
+} from "@/src/entities/agenda";
+import type { EventCalendarType } from "@/src/entities/event-calendar";
+import { AgendaItem } from "./AgendaItem";
 
-export const Agenda: React.FC = () => {
-	const [items, setItems] = useState({});
+export interface AgendaProps {
+	events: EventCalendarType[];
+}
 
-	const loadItems = (day) => {
-        console.log("day loadItems", day);
-	};
+export const Agenda: React.FC<AgendaProps> = ({ events }) => {
+	const [agendaItems, setAgendaItems] = useState<EventAgendaData>({});
 
-	const renderItem = (item) => {
-		return (
-			<TouchableOpacity
-				style={{ marginRight: 10, marginTop: 17 }}
-			>
+	useEffect(() => {
+		const today = new Date();
+		const rangeEnd = new Date();
+		rangeEnd.setDate(today.getDate() + 30);
 
-            </TouchableOpacity>
-		);
-	};
+		const agendaData = transformEventsForAgenda(events, today, rangeEnd);
+
+		setAgendaItems(agendaData);
+	}, [events]);
 
 	return (
-		<View style={{ flex: 1 }}>
-			<AgendaRN
-				items={items}
-				loadItemsForMonth={loadItems}
-				selected={"2017-05-16"}
-				renderItem={renderItem}
-			/>
-		</View>
+		<AgendaRN
+			items={agendaItems}
+			renderItem={(item: EventAgendaItem) => <AgendaItem item={item} />}
+			renderEmptyDate={() => (
+				<View style={{ flex: 1, padding: 10 }}>
+					<Text>Нет событий в этот день</Text>
+				</View>
+			)}
+		/>
 	);
 };

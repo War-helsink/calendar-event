@@ -1,7 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
-import { dateReducer } from "@/src/entities/date";
+import { eventCalendarReducer } from "@/src/entities/event-calendar";
 
 export const rootReducer = combineReducers({
-	date: dateReducer,
+	eventCalendar: eventCalendarReducer,
 });

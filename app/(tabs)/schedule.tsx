@@ -1,4 +1,4 @@
-import { Agenda } from "@/src/features/calendar";
+import { ScheduleCalendar } from "@/src/widgets/schedule";
 import { ThemedSafeAreaView } from "@/src/shared/ui";
 
 const ScheduleScreen: React.FC = () => {
@@ -7,7 +7,7 @@ const ScheduleScreen: React.FC = () => {
 			className="w-full h-full px-5 pb-5"
 			edges={["top", "left", "right"]}
 		>
-			<Agenda />
+			<ScheduleCalendar />
 		</ThemedSafeAreaView>
 	);
 };

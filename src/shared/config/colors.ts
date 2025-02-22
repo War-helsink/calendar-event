@@ -23,6 +23,12 @@ export const Colors = {
 		buttonBackground: "#FFD33D",
 		buttonUnderlay: "#FFC107",
 		buttonText: "#fff",
+
+		//Toast
+		toastSuccess: "#2dd55b",
+		toastError: "#c5000f",
+		toastInfo: "#636469",
+		toastText: "#fff",
 	},
 	dark: {
 		// Base
@@ -43,5 +49,11 @@ export const Colors = {
 		buttonBackground: "#FFC107",
 		buttonUnderlay: "#E0A800",
 		buttonText: "#fff", 
+
+		//Toast
+		toastSuccess: "#2dd55b",
+		toastError: "#f24c58",
+		toastInfo: "#989aa2",
+		toastText: "#fff",
 	},
 };

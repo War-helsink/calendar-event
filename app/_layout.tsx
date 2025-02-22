@@ -15,6 +15,7 @@ import { Provider } from "react-redux";
 import { store } from "@/src/provider/store";
 
 import { useColorScheme } from "@/src/shared/hooks/useColorScheme";
+import { Toast } from "@/src/shared/ui";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -42,6 +43,7 @@ const RootLayout: React.FC = () => {
 					<Stack.Screen name="+not-found" />
 				</Stack>
 				<StatusBar style="auto" />
+				<Toast />
 			</Provider>
 		</ThemeProvider>
 	);

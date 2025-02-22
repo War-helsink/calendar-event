@@ -1,1 +1,1 @@
-export { EventForm } from "./compose/EventForm";
+export { AddEventForm } from "./compose/AddEventForm";
