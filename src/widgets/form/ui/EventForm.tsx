@@ -12,7 +12,7 @@ export const EventForm: React.FC = () => {
 	const dateEnd = useAppSelector((state) => state.eventCalendar.dateEnd);
 
 	return (
-		<View className="flex-1 gap-6">
+		<View className="gap-6">
 			<View className="gap-2">
 				<Text className="font-bold text-lg">Event Name</Text>
 				<Input

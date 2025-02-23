@@ -1,20 +1,19 @@
-import { cn } from "@/src/shared/utils";
-import { TouchableHighlight } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 import { Text } from "./Text";
 
 import type { ViewStyle, StyleProp } from "react-native";
-import { useThemeColor } from "@/src/shared/hooks/useThemeColor";
 
-export interface ButtonProps extends React.PropsWithChildren {
+import { useThemeColor } from "../hooks/useThemeColor";
+
+export interface ButtonOpacityProps extends React.PropsWithChildren {
 	asChild?: boolean;
 	className?: string;
 	onPress?: () => void;
 	style?: StyleProp<ViewStyle>;
 	disabled?: boolean;
 }
-
-export const Button: React.FC<ButtonProps> = ({
+export const ButtonOpacity: React.FC<ButtonOpacityProps> = ({
 	asChild = false,
 	className,
 	children,
@@ -22,20 +21,17 @@ export const Button: React.FC<ButtonProps> = ({
 	style,
 	disabled,
 }) => {
-	const backgroundColor = useThemeColor("buttonBackground");
-	const underlayColor = useThemeColor("buttonUnderlay");
 	const color = useThemeColor("buttonText");
 
 	return (
-		<TouchableHighlight
+		<TouchableOpacity
 			onPress={() => {
 				impactAsync(ImpactFeedbackStyle.Soft);
 				onPress?.();
 			}}
 			disabled={disabled}
-			underlayColor={underlayColor}
-			className={cn("rounded-3xl w-full py-3", className)}
-			style={[{ backgroundColor }, style]}
+			className={className}
+			style={style}
 		>
 			{asChild ? (
 				children
@@ -44,6 +40,6 @@ export const Button: React.FC<ButtonProps> = ({
 					{children}
 				</Text>
 			)}
-		</TouchableHighlight>
+		</TouchableOpacity>
 	);
 };

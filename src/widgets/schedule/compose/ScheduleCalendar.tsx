@@ -1,6 +1,7 @@
-import { loadState } from "@/src/entities/event-calendar";
+import { loadState, setDate } from "@/src/entities/event-calendar";
 import { Agenda } from "@/src/features/calendar";
 import { useAppSelector, useAppDispatch } from "@/src/provider/store";
+import { formattedISOString } from "@/src/shared/utils";
 import { useEffect } from "react";
 
 export const ScheduleCalendar: React.FC = () => {
@@ -11,5 +12,10 @@ export const ScheduleCalendar: React.FC = () => {
 		dispatch(loadState());
 	}, [dispatch]);
 
-	return <Agenda events={events} />;
+	return (
+		<Agenda
+			events={events}
+			onDayPress={(date) => dispatch(setDate(formattedISOString(date)))}
+		/>
+	);
 };

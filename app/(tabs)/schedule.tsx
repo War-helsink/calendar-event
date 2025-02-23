@@ -1,5 +1,6 @@
 import { ScheduleCalendar } from "@/src/widgets/schedule";
 import { ThemedSafeAreaView } from "@/src/shared/ui";
+import { FloatingActionButton } from "@/src/features/navigate";
 
 const ScheduleScreen: React.FC = () => {
 	return (
@@ -8,6 +9,7 @@ const ScheduleScreen: React.FC = () => {
 			edges={["top", "left", "right"]}
 		>
 			<ScheduleCalendar />
+			<FloatingActionButton href="/event-form" />
 		</ThemedSafeAreaView>
 	);
 };

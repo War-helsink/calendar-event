@@ -1,41 +1,59 @@
 import { useEffect, useState } from "react";
-import { View } from "react-native";
-import { Agenda as AgendaRN } from "react-native-calendars";
-import { Text } from "@/src/shared/ui";
+import { type DateData, Agenda as AgendaRN } from "react-native-calendars";
 import {
 	type EventAgendaItem,
 	type EventAgendaData,
 	transformEventsForAgenda,
 } from "@/src/entities/agenda";
 import type { EventCalendarType } from "@/src/entities/event-calendar";
+import { addMonths } from "date-fns";
+
+import { AgendaEmpty } from "./AgendaEmpty";
 import { AgendaItem } from "./AgendaItem";
+import { formattedDateFormat } from "@/src/shared/utils";
 
 export interface AgendaProps {
 	events: EventCalendarType[];
+	onDayPress?: (date: Date) => void;
 }
 
-export const Agenda: React.FC<AgendaProps> = ({ events }) => {
+export const Agenda: React.FC<AgendaProps> = ({ events, onDayPress }) => {
 	const [agendaItems, setAgendaItems] = useState<EventAgendaData>({});
 
 	useEffect(() => {
-		const today = new Date();
-		const rangeEnd = new Date();
-		rangeEnd.setDate(today.getDate() + 30);
+		const start = new Date();
+		const end = addMonths(start, 1);
 
-		const agendaData = transformEventsForAgenda(events, today, rangeEnd);
-
-		setAgendaItems(agendaData);
+		const agendaData = transformEventsForAgenda(events, start, end);
+		setAgendaItems((prev) => ({ ...prev, ...agendaData }));
 	}, [events]);
+
+	const loadItemsForMonth = (month: DateData) => {
+		const start = new Date(month.timestamp);
+		const end = addMonths(start, 1);
+
+		const agendaData = transformEventsForAgenda(events, start, end);
+
+		const filledAgendaData = { ...agendaData };
+
+		while (start <= end) {
+			const dateString = formattedDateFormat(start);
+			if (!filledAgendaData[dateString]) {
+				filledAgendaData[dateString] = [];
+			}
+			start.setDate(start.getDate() + 1);
+		}
+
+		setAgendaItems((prev) => ({ ...prev, ...filledAgendaData }));
+	};
 
 	return (
 		<AgendaRN
 			items={agendaItems}
+			onDayPress={(day: DateData) => onDayPress?.(new Date(day.timestamp))}
 			renderItem={(item: EventAgendaItem) => <AgendaItem item={item} />}
-			renderEmptyDate={() => (
-				<View style={{ flex: 1, padding: 10 }}>
-					<Text>Нет событий в этот день</Text>
-				</View>
-			)}
+			renderEmptyDate={() => <AgendaEmpty />}
+			loadItemsForMonth={loadItemsForMonth}
 		/>
 	);
 };

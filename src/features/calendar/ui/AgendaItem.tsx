@@ -1,6 +1,6 @@
-import { View } from "react-native";
-import { Text } from "@/src/shared/ui";
+import { router } from "expo-router";
 import type { EventAgendaItem } from "@/src/entities/agenda";
+import { ButtonOpacity, Text } from "@/src/shared/ui";
 
 const formatDate = (dateStr: string): string => {
 	const date = new Date(dateStr);
@@ -24,19 +24,24 @@ export interface AgendaItemProps {
 
 export const AgendaItem: React.FC<AgendaItemProps> = ({ item }) => {
 	return (
-		<View
+		<ButtonOpacity
+			asChild
 			style={{
 				backgroundColor: "white",
-				padding: 10,
-				marginRight: 10,
-				marginTop: 17,
 			}}
+			onPress={() =>
+				router.push({
+					pathname: "/event-form",
+					params: { item: JSON.stringify(item) },
+				})
+			}
+			className="px-6 py-2.5 mt-5 justify-center items-center rounded-xl"
 		>
-			<Text style={{ fontWeight: "bold" }}>{formatDate(item.startTime)}</Text>
+			<Text className="font-bold">{formatDate(item.startTime)}</Text>
 			<Text>
 				с {formatTime(item.startTime)} по {formatTime(item.endTime)}
 			</Text>
 			<Text>{item.title}</Text>
-		</View>
+		</ButtonOpacity>
 	);
 };

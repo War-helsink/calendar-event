@@ -40,6 +40,13 @@ const RootLayout: React.FC = () => {
 			<Provider store={store}>
 				<Stack>
 					<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+					<Stack.Screen
+						name="event-form"
+						options={{
+							presentation: "transparentModal",
+							headerShown: false,
+						}}
+					/>
 					<Stack.Screen name="+not-found" />
 				</Stack>
 				<StatusBar style="auto" />
