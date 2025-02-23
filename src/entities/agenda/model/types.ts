@@ -3,8 +3,8 @@ import type { ISOString, DateFormat } from "@/src/shared/model";
 export interface EventAgendaItem {
 	id: string;
 	title: string;
-	startTime: ISOString;
-	endTime: ISOString;
+	start: ISOString;
+	end: ISOString;
 }
 
 export type EventAgendaData  = {

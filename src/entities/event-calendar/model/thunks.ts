@@ -1,32 +1,23 @@
-import uuid from "react-native-uuid";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { State } from "./slice";
-import type { EventCalendarType } from "./types";
-import { StateSchema } from "./schema";
+import type { CalendarEventType } from "./types";
+import { EventCalendarSchema } from "./schema";
 import { isOverlapping } from "../lib";
 
 export const saveState = createAsyncThunk(
 	"eventCalendar/saveState",
-	async (_, { rejectWithValue, getState }) => {
+	async (event: CalendarEventType, { rejectWithValue, getState }) => {
 		try {
 			const state = getState() as { eventCalendar: State };
-			const result = StateSchema.safeParse(state.eventCalendar);
+			const result = EventCalendarSchema.safeParse(event);
 
 			if (result.success) {
-				const event: EventCalendarType = {
-					id: uuid.v4(),
-					title: state.eventCalendar.title,
-					start: state.eventCalendar.dateStart,
-					end: state.eventCalendar.dateEnd,
-					repeat: state.eventCalendar.repeat,
-				};
-
-				if (!isOverlapping(event, state.eventCalendar.events)) {
+				if (!isOverlapping(event, state.eventCalendar.calendarEvents)) {
 					await AsyncStorage.setItem(
 						"events",
-						JSON.stringify([...state.eventCalendar.events, event]),
+						JSON.stringify([...state.eventCalendar.calendarEvents, event]),
 					);
 
 					Toast.show({

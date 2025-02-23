@@ -1,6 +1,6 @@
-import type { EventAgendaData , EventAgendaItem } from "../model/types";
+import type { EventAgendaData, EventAgendaItem } from "../model/types";
 import type { DateFormat } from "@/src/shared/model";
-import type { EventCalendarType } from "@/src/entities/event-calendar";
+import type { CalendarEventType } from "@/src/entities/event-calendar";
 import { formattedDateFormat, formattedISOString } from "@/src/shared/utils";
 import forEach from "lodash/forEach";
 import keys from "lodash/keys";
@@ -8,11 +8,11 @@ import keys from "lodash/keys";
 import { startOfDay, endOfDay, addDays } from "date-fns";
 
 export function transformEventsForAgenda(
-	events: EventCalendarType[],
+	events: CalendarEventType[],
 	rangeStart: Date,
 	rangeEnd: Date,
-): EventAgendaData  {
-	const agendaData: EventAgendaData  = {};
+): EventAgendaData {
+	const agendaData: EventAgendaData = {};
 
 	const addOccurrence = (dateKey: DateFormat, agendaItem: EventAgendaItem) => {
 		if (!agendaData[dateKey]) {
@@ -24,7 +24,7 @@ export function transformEventsForAgenda(
 	const addMultiDayOccurrence = (
 		occStart: Date,
 		occEnd: Date,
-		event: EventCalendarType,
+		event: CalendarEventType,
 	) => {
 		let current = new Date(occStart);
 		while (current <= occEnd) {
@@ -35,18 +35,18 @@ export function transformEventsForAgenda(
 					formattedDateFormat(current) === formattedDateFormat(occStart);
 				const isLastDay =
 					formattedDateFormat(current) === formattedDateFormat(occEnd);
-				const startTime = isFirstDay
+				const start = isFirstDay
 					? event.start
 					: formattedISOString(startOfDay(current));
-				const endTime = isLastDay
+				const end = isLastDay
 					? event.end
 					: formattedISOString(endOfDay(current));
 
 				addOccurrence(dateKey, {
 					id: event.id,
 					title: event.title,
-					startTime,
-					endTime,
+					start: start,
+					end: end,
 				});
 			}
 
@@ -88,8 +88,7 @@ export function transformEventsForAgenda(
 
 	forEach(keys(agendaData), (dateKey) => {
 		agendaData[dateKey as DateFormat].sort(
-			(a, b) =>
-				new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
+			(a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
 		);
 	});
 

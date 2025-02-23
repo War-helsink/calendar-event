@@ -14,11 +14,10 @@ export const RepeatTypeSchema = z.enum([
 	"none",
 ]);
 
-export const StateSchema = z.object({
+export const EventCalendarSchema = z.object({
+	id: z.string().min(1, "Id is required"),
 	title: z.string().min(1, "Title is required"),
-	dateStart: IsoStringSchema,
-	dateEnd: IsoStringSchema,
+	start: IsoStringSchema,
+	end: IsoStringSchema,
 	repeat: RepeatTypeSchema,
 });
-
-export type TStateValues = z.infer<typeof StateSchema>;

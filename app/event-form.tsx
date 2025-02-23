@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import { ScrollView, View } from "react-native";
-import { AddEventForm } from "@/src/widgets/form";
+import { CalendarEventForm } from "@/src/widgets/calendar";
 import { ButtonOpacity, Text, ThemedBottomSheet } from "@/src/shared/ui";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
@@ -17,16 +17,14 @@ const EventFormScreen: React.FC = () => {
 		}
 	};
 
-	const { item } = route.params as { item?: string };
-
-	if (item) {
-		console.log(JSON.parse(item));
-	}
+	const event = useMemo(() => {
+		const { item } = route.params as { item?: string };
+		return item ? JSON.parse(item) : null;
+	}, [route]);
 
 	return (
 		<GestureHandlerRootView className="flex-1">
 			<ThemedBottomSheet
-				index={0}
 				enablePanDownToClose={true}
 				snapPoints={snapPoints}
 				onChange={handleSheetChanges}
@@ -39,18 +37,18 @@ const EventFormScreen: React.FC = () => {
 						<View className="w-10 h-1 bg-gray-300 rounded-full" />
 
 						<ButtonOpacity
-							onPress={() => console.log(item ? "Save" : "Create")}
+							onPress={() => console.log(event ? "Save" : "Create")}
 							asChild
 						>
-							<Text className="text-blue-500 font-bold">
-								{item ? "Save" : "Create"}
+							<Text className="font-bold">
+								{event ? "Save" : "Create"}
 							</Text>
 						</ButtonOpacity>
 					</View>
 				)}
 			>
 				<ScrollView className="flex-1 px-5">
-					<AddEventForm />
+					<CalendarEventForm event={event} />
 				</ScrollView>
 			</ThemedBottomSheet>
 		</GestureHandlerRootView>

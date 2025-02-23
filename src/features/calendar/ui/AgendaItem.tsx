@@ -37,9 +37,9 @@ export const AgendaItem: React.FC<AgendaItemProps> = ({ item }) => {
 			}
 			className="px-6 py-2.5 mt-5 justify-center items-center rounded-xl"
 		>
-			<Text className="font-bold">{formatDate(item.startTime)}</Text>
+			<Text className="font-bold">{formatDate(item.start)}</Text>
 			<Text>
-				с {formatTime(item.startTime)} по {formatTime(item.endTime)}
+				с {formatTime(item.start)} по {formatTime(item.end)}
 			</Text>
 			<Text>{item.title}</Text>
 		</ButtonOpacity>

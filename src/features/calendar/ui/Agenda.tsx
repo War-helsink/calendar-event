@@ -5,7 +5,7 @@ import {
 	type EventAgendaData,
 	transformEventsForAgenda,
 } from "@/src/entities/agenda";
-import type { EventCalendarType } from "@/src/entities/event-calendar";
+import type { CalendarEventType } from "@/src/entities/event-calendar";
 import { addMonths } from "date-fns";
 
 import { AgendaEmpty } from "./AgendaEmpty";
@@ -13,7 +13,7 @@ import { AgendaItem } from "./AgendaItem";
 import { formattedDateFormat } from "@/src/shared/utils";
 
 export interface AgendaProps {
-	events: EventCalendarType[];
+	events: CalendarEventType[];
 	onDayPress?: (date: Date) => void;
 }
 
