@@ -1,47 +1,36 @@
 import { router } from "expo-router";
-import type { EventAgendaItem } from "@/src/entities/agenda";
-import { ButtonOpacity, Text } from "@/src/shared/ui";
+import { TouchableOpacity, View, Text } from "react-native";
 
-const formatDate = (dateStr: string): string => {
-	const date = new Date(dateStr);
-	const day = date.getDate();
-	const month = date.getMonth() + 1;
-	const year = date.getFullYear();
-	return `${day} числа ${month} месяца ${year} года`;
-};
-
-const formatTime = (dateStr: string): string => {
-	const date = new Date(dateStr);
-	return date.toLocaleTimeString("ru-RU", {
-		hour: "2-digit",
-		minute: "2-digit",
-	});
-};
+import type { EventAgendaItem } from "../model/types";
 
 export interface AgendaItemProps {
 	item: EventAgendaItem;
 }
 
 export const AgendaItem: React.FC<AgendaItemProps> = ({ item }) => {
+	const handlePress = () => {
+		if (item.type === "template") {
+			router.push({
+				pathname: "/event-form",
+				params: { templateId: item.templateId },
+			});
+		} else {
+			router.push({
+				pathname: "/event-form",
+				params: { eventId: item.id, readOnly: 1 },
+			});
+		}
+	};
+
 	return (
-		<ButtonOpacity
-			asChild
-			style={{
-				backgroundColor: "white",
-			}}
-			onPress={() =>
-				router.push({
-					pathname: "/event-form",
-					params: { item: JSON.stringify(item) },
-				})
-			}
-			className="px-6 py-2.5 mt-5 justify-center items-center rounded-xl"
-		>
-			<Text className="font-bold">{formatDate(item.start)}</Text>
-			<Text>
-				с {formatTime(item.start)} по {formatTime(item.end)}
-			</Text>
-			<Text>{item.title}</Text>
-		</ButtonOpacity>
+		<TouchableOpacity onPress={handlePress}>
+			<View style={{ padding: 10, backgroundColor: "#fff", marginBottom: 5 }}>
+				<Text style={{ fontWeight: "bold" }}>{item.title}</Text>
+				<Text>
+					{new Date(item.start).toLocaleTimeString()} -{" "}
+					{new Date(item.end).toLocaleTimeString()}
+				</Text>
+			</View>
+		</TouchableOpacity>
 	);
 };

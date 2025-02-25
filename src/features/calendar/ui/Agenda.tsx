@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
 import { type DateData, Agenda as AgendaRN } from "react-native-calendars";
-import {
-	type EventAgendaItem,
-	type EventAgendaData,
-	transformEventsForAgenda,
-} from "@/src/entities/agenda";
 import type {
 	CalendarEventTemplate,
 	ConcludedCalendarEvent,
@@ -14,6 +9,9 @@ import { addMonths } from "date-fns";
 import { AgendaEmpty } from "./AgendaEmpty";
 import { AgendaItem } from "./AgendaItem";
 
+import { transformEventsForAgenda } from "../lib";
+import type { EventAgendaData, EventAgendaItem } from "../model/types";
+
 export interface AgendaProps {
 	onDayPress?: (date: Date) => void;
 	calendarEventTemplates: CalendarEventTemplate[];
@@ -21,8 +19,9 @@ export interface AgendaProps {
 }
 
 export const Agenda: React.FC<AgendaProps> = ({
-	calendarEventTemplates,
 	onDayPress,
+	calendarEventTemplates,
+	concludedCalendarEvents,
 }) => {
 	const [agendaItems, setAgendaItems] = useState<EventAgendaData>({});
 
@@ -32,11 +31,12 @@ export const Agenda: React.FC<AgendaProps> = ({
 
 		const agendaData = transformEventsForAgenda(
 			calendarEventTemplates,
+			concludedCalendarEvents,
 			start,
 			end,
 		);
 		setAgendaItems({ ...agendaData });
-	}, [calendarEventTemplates]);
+	}, [calendarEventTemplates, concludedCalendarEvents]);
 
 	const loadItemsForMonth = (month: DateData) => {
 		const start = new Date(month.timestamp);
@@ -44,6 +44,7 @@ export const Agenda: React.FC<AgendaProps> = ({
 
 		const agendaData = transformEventsForAgenda(
 			calendarEventTemplates,
+			concludedCalendarEvents,
 			start,
 			end,
 		);

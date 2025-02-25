@@ -14,8 +14,8 @@ export const ScheduleCalendar: React.FC = () => {
 
 	return (
 		<Agenda
-			concludedCalendarEvents={concludedCalendarEvents}
 			calendarEventTemplates={calendarEventTemplates}
+			concludedCalendarEvents={concludedCalendarEvents}
 			onDayPress={(date) => dispatch(setCalendarData(formattedISOString(date)))}
 		/>
 	);

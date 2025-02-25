@@ -1,5 +1,16 @@
-import type { DateFormat } from "@/src/shared/model";
+import type { CalendarEventTemplate, ConcludedCalendarEvent } from "@/src/entities/event-calendar";
+import type { ISOString, DateFormat } from "@/src/shared/model";
 
-export type EventType = "past" | "future";
+export interface EventAgendaItem {
+	id: string;
+	title: string;
+	start: ISOString;
+	end: ISOString;
+	type: "template" | "concluded";
+	templateId?: string;
+	originalEvent: CalendarEventTemplate | ConcludedCalendarEvent;
+}
 
-export type Events = Record<DateFormat, { type: EventType }>;
+export type EventAgendaData = {
+	[date: DateFormat]: EventAgendaItem[];
+};
