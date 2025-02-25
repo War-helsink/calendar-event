@@ -4,12 +4,6 @@ import type { CalendarEventTemplate, ConcludedCalendarEvent } from "./types";
 import type { ISOString } from "@/src/shared/model";
 import { formattedISOString } from "@/src/shared/utils";
 import { startOfDay } from "date-fns";
-import {
-	addCalendarEventTemplate,
-	updateCalendarEventTemplate,
-	removeCalendarEventTemplate,
-	loadState,
-} from "./thunks";
 
 export interface State {
 	calendarData: ISOString;
@@ -30,46 +24,45 @@ export const eventCalendarSlice = createSlice({
 		setCalendarData: (state, action: PayloadAction<ISOString>) => {
 			state.calendarData = action.payload;
 		},
-	},
-	extraReducers: (builder) => {
-		builder.addCase(loadState.fulfilled, (state, action) => {
-			if (action.payload) {
-				const [calendarEventTemplates, concludedCalendarEvents] =
-					action.payload;
+		addCalendarEventTemplate: (
+			state,
+			action: PayloadAction<CalendarEventTemplate>,
+		) => {
+			const calendarEventTemplate = action.payload;
 
-				let newState = { ...state };
+			state.calendarEventTemplates = [
+				...state.calendarEventTemplates,
+				calendarEventTemplate,
+			];
+		},
 
-				if (calendarEventTemplates) {
-					newState = { ...newState, calendarEventTemplates };
-				}
-				if (concludedCalendarEvents) {
-					newState = { ...newState, concludedCalendarEvents };
-				}
+		updateCalendarEventTemplate: (
+			state,
+			action: PayloadAction<CalendarEventTemplate>,
+		) => {
+			const updateCalendarEventTemplate = action.payload;
 
-				return newState;
-			}
-		});
-		builder.addCase(addCalendarEventTemplate.fulfilled, (state, action) => {
-			if (action.payload) {
-				const calendarEventTemplates = [...action.payload];
-				return { ...state, calendarEventTemplates };
-			}
-		});
-		builder.addCase(updateCalendarEventTemplate.fulfilled, (state, action) => {
-			if (action.payload) {
-				const calendarEventTemplates = [...action.payload];
-				return { ...state, calendarEventTemplates };
-			}
-		});
-		builder.addCase(removeCalendarEventTemplate.fulfilled, (state, action) => {
-			if (action.payload) {
-				const calendarEventTemplates = [...action.payload];
-				return { ...state, calendarEventTemplates };
-			}
-		});
+			state.calendarEventTemplates = state.calendarEventTemplates.map(
+				(calendarEventTemplate) =>
+					calendarEventTemplate.id === updateCalendarEventTemplate.id
+						? { ...calendarEventTemplate, ...updateCalendarEventTemplate }
+						: calendarEventTemplate,
+			);
+		},
+		removeCalendarEventTemplate: (state, action: PayloadAction<string>) => {
+			const id = action.payload;
+			state.calendarEventTemplates = state.calendarEventTemplates.filter(
+				(item) => item.id !== id,
+			);
+		},
 	},
 });
 
-export const { setCalendarData } = eventCalendarSlice.actions;
+export const {
+	setCalendarData,
+	addCalendarEventTemplate,
+	updateCalendarEventTemplate,
+	removeCalendarEventTemplate,
+} = eventCalendarSlice.actions;
 
 export const eventCalendarReducer = eventCalendarSlice.reducer;

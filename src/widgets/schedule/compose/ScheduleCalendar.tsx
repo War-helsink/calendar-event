@@ -1,8 +1,7 @@
-import { loadState, setCalendarData } from "@/src/entities/event-calendar";
+import { setCalendarData } from "@/src/entities/event-calendar";
 import { Agenda } from "@/src/features/calendar";
 import { useAppSelector, useAppDispatch } from "@/src/provider/store";
 import { formattedISOString } from "@/src/shared/utils";
-import { useEffect } from "react";
 
 export const ScheduleCalendar: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -12,10 +11,6 @@ export const ScheduleCalendar: React.FC = () => {
 	const concludedCalendarEvents = useAppSelector(
 		(state) => state.eventCalendar.concludedCalendarEvents,
 	);
-
-	useEffect(() => {
-		dispatch(loadState());
-	}, [dispatch]);
 
 	return (
 		<Agenda

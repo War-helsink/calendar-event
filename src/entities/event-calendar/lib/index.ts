@@ -20,6 +20,7 @@ export function isOverlapping(
 export function createEventCalendar(date = new Date()): CalendarEventTemplate {
 	return {
 		id: uuid.v4(),
+		nextEvent: formattedISOString(startOfDay(date)),
 		title: "",
 		start: formattedISOString(startOfDay(date)),
 		end: formattedISOString(endOfDay(date)),

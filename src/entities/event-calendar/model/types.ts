@@ -4,6 +4,7 @@ export type RepeatType = "weekly" | "bi-weekly" | "month" | "none";
 
 export interface CalendarEventTemplate {
 	id: string;
+	nextEvent: ISOString;
 	title: string;
 	start: ISOString;
 	end: ISOString;

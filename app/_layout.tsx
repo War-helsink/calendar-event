@@ -12,7 +12,8 @@ import "react-native-reanimated";
 import "@/global.css";
 
 import { Provider } from "react-redux";
-import { store } from "@/src/provider/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "@/src/provider/store";
 
 import { useColorScheme } from "@/src/shared/hooks/useColorScheme";
 import { Toast } from "@/src/shared/ui";
@@ -38,19 +39,21 @@ const RootLayout: React.FC = () => {
 	return (
 		<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
 			<Provider store={store}>
-				<Stack>
-					<Stack.Screen name="index" options={{ headerShown: false }} />
-					<Stack.Screen
-						name="event-form"
-						options={{
-							presentation: "modal",
-							headerShown: false,
-						}}
-					/>
-					<Stack.Screen name="+not-found" />
-				</Stack>
-				<StatusBar style="auto" />
-				<Toast />
+				<PersistGate loading={null} persistor={persistor}>
+					<Stack>
+						<Stack.Screen name="index" options={{ headerShown: false }} />
+						<Stack.Screen
+							name="event-form"
+							options={{
+								presentation: "modal",
+								headerShown: false,
+							}}
+						/>
+						<Stack.Screen name="+not-found" />
+					</Stack>
+					<StatusBar style="auto" />
+					<Toast />
+				</PersistGate>
 			</Provider>
 		</ThemeProvider>
 	);
