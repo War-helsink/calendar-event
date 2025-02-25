@@ -1,10 +1,17 @@
 export { isOverlapping, createEventCalendar } from "./lib/index";
 export {
-	eventCalendarReducer,
 	setCalendarData,
-	addCalendarEvent,
-	updateCalendarEvent,
-	removeCalendarEvent,
+	eventCalendarReducer,
 } from "./model/slice";
-export { saveState, loadState } from "./model/thunks";
-export { RepeatType, CalendarEventType } from "./model/types";
+export { CalendarEventTemplateSchema } from "./model/schema";
+export {
+	loadState,
+	addCalendarEventTemplate,
+	updateCalendarEventTemplate,
+	removeCalendarEventTemplate,
+} from "./model/thunks";
+export {
+	RepeatType,
+	CalendarEventTemplate,
+	ConcludedCalendarEvent,
+} from "./model/types";

@@ -1,6 +1,6 @@
 import type { EventAgendaData, EventAgendaItem } from "../model/types";
 import type { DateFormat } from "@/src/shared/model";
-import type { CalendarEventType } from "@/src/entities/event-calendar";
+import type { CalendarEventTemplate } from "@/src/entities/event-calendar";
 import { formattedDateFormat, formattedISOString } from "@/src/shared/utils";
 import forEach from "lodash/forEach";
 import keys from "lodash/keys";
@@ -8,7 +8,7 @@ import keys from "lodash/keys";
 import { startOfDay, endOfDay, addDays } from "date-fns";
 
 export function transformEventsForAgenda(
-	events: CalendarEventType[],
+	events: CalendarEventTemplate[],
 	rangeStart: Date,
 	rangeEnd: Date,
 ): EventAgendaData {
@@ -24,7 +24,7 @@ export function transformEventsForAgenda(
 	const addMultiDayOccurrence = (
 		occStart: Date,
 		occEnd: Date,
-		event: CalendarEventType,
+		event: CalendarEventTemplate,
 	) => {
 		let current = new Date(occStart);
 		while (current <= occEnd) {
@@ -47,6 +47,7 @@ export function transformEventsForAgenda(
 					title: event.title,
 					start: start,
 					end: end,
+					repeat: event.repeat,
 				});
 			}
 

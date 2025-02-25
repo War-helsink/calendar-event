@@ -1,63 +1,100 @@
-import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import type { CalendarEventTemplate, ConcludedCalendarEvent } from "./types";
 import type { State } from "./slice";
-import type { CalendarEventType } from "./types";
-import { EventCalendarSchema } from "./schema";
-import { isOverlapping } from "../lib";
 
-export const saveState = createAsyncThunk(
-	"eventCalendar/saveState",
-	async (event: CalendarEventType, { rejectWithValue, getState }) => {
+export const addCalendarEventTemplate = createAsyncThunk(
+	"eventCalendar/addCalendarEventTemplate",
+	async (
+		calendarEventTemplate: CalendarEventTemplate,
+		{ rejectWithValue, getState },
+	) => {
 		try {
 			const state = getState() as { eventCalendar: State };
-			const result = EventCalendarSchema.safeParse(event);
+			const calendarEventTemplates = [
+				...state.eventCalendar.calendarEventTemplates,
+				calendarEventTemplate,
+			];
+			await AsyncStorage.setItem(
+				"calendarEventTemplates",
+				JSON.stringify(calendarEventTemplates),
+			);
 
-			if (result.success) {
-				if (!isOverlapping(event, state.eventCalendar.calendarEvents)) {
-					await AsyncStorage.setItem(
-						"events",
-						JSON.stringify([...state.eventCalendar.calendarEvents, event]),
-					);
-
-					Toast.show({
-						type: "success",
-						text1: "Note added successfully.",
-					});
-
-					return event;
-				}
-
-				Toast.show({
-					type: "error",
-					text1: "Such a note already exists.",
-				});
-
-				return null;
-			}
-
-			Toast.show({
-				type: "error",
-				text1: "Fill in all fields.",
-			});
-
-			return null;
+			return calendarEventTemplates;
 		} catch (error) {
 			return rejectWithValue(error);
 		}
 	},
 );
 
-export const loadState = createAsyncThunk(
-	"eventCalendar/loadState",
-	async (_, { rejectWithValue }) => {
+export const updateCalendarEventTemplate = createAsyncThunk(
+	"eventCalendar/updateCalendarEventTemplate",
+	async (
+		updateCalendarEventTemplate: CalendarEventTemplate,
+		{ rejectWithValue, getState },
+	) => {
 		try {
-			const jsonValue = await AsyncStorage.getItem("events");
-			const events = jsonValue ? JSON.parse(jsonValue) : null;
+			const state = getState() as { eventCalendar: State };
 
-			return events;
+			const calendarEventTemplates =
+				state.eventCalendar.calendarEventTemplates.map((event) =>
+					event.id === updateCalendarEventTemplate.id
+						? { ...event, ...updateCalendarEventTemplate }
+						: event,
+				);
+
+			await AsyncStorage.setItem(
+				"calendarEventTemplates",
+				JSON.stringify(calendarEventTemplates),
+			);
+
+			return calendarEventTemplates;
 		} catch (error) {
 			return rejectWithValue(error);
 		}
 	},
 );
+
+export const removeCalendarEventTemplate = createAsyncThunk(
+	"eventCalendar/removeCalendarEventTemplate",
+	async (id: string, { rejectWithValue, getState }) => {
+		try {
+			const state = getState() as { eventCalendar: State };
+			const calendarEventTemplates =
+				state.eventCalendar.calendarEventTemplates.filter(
+					(item) => item.id !== id,
+				);
+			await AsyncStorage.setItem(
+				"calendarEventTemplates",
+				JSON.stringify(calendarEventTemplates),
+			);
+
+			return calendarEventTemplates;
+		} catch (error) {
+			return rejectWithValue(error);
+		}
+	},
+);
+
+export const loadState = createAsyncThunk<
+	[CalendarEventTemplate[] | null, ConcludedCalendarEvent[] | null]
+>("eventCalendar/loadState", async (_, { rejectWithValue }) => {
+	try {
+		const jsonCalendarEventTemplates = await AsyncStorage.getItem(
+			"calendarEventTemplates",
+		);
+		const jsonConcludedCalendarEvents = await AsyncStorage.getItem(
+			"concludedCalendarEvents",
+		);
+		const calendarEventTemplates = jsonCalendarEventTemplates
+			? (JSON.parse(jsonCalendarEventTemplates) as CalendarEventTemplate[])
+			: null;
+		const concludedCalendarEvents = jsonConcludedCalendarEvents
+			? (JSON.parse(jsonConcludedCalendarEvents) as ConcludedCalendarEvent[])
+			: null;
+
+		return [calendarEventTemplates, concludedCalendarEvents];
+	} catch (error) {
+		return rejectWithValue(error);
+	}
+});

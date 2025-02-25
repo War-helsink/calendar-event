@@ -39,11 +39,11 @@ const RootLayout: React.FC = () => {
 		<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
 			<Provider store={store}>
 				<Stack>
-					<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+					<Stack.Screen name="index" options={{ headerShown: false }} />
 					<Stack.Screen
 						name="event-form"
 						options={{
-							presentation: "transparentModal",
+							presentation: "modal",
 							headerShown: false,
 						}}
 					/>

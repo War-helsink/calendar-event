@@ -1,19 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { CalendarEventType } from "./types";
+import type { CalendarEventTemplate, ConcludedCalendarEvent } from "./types";
 import type { ISOString } from "@/src/shared/model";
 import { formattedISOString } from "@/src/shared/utils";
 import { startOfDay } from "date-fns";
-import { loadState } from "./thunks";
+import {
+	addCalendarEventTemplate,
+	updateCalendarEventTemplate,
+	removeCalendarEventTemplate,
+	loadState,
+} from "./thunks";
 
 export interface State {
 	calendarData: ISOString;
-	calendarEvents: CalendarEventType[];
+	concludedCalendarEvents: ConcludedCalendarEvent[];
+	calendarEventTemplates: CalendarEventTemplate[];
 }
 
 const initialState: State = {
 	calendarData: formattedISOString(startOfDay(new Date())),
-	calendarEvents: [],
+	calendarEventTemplates: [],
+	concludedCalendarEvents: [],
 };
 
 export const eventCalendarSlice = createSlice({
@@ -23,32 +30,46 @@ export const eventCalendarSlice = createSlice({
 		setCalendarData: (state, action: PayloadAction<ISOString>) => {
 			state.calendarData = action.payload;
 		},
-		addCalendarEvent: (state, action: PayloadAction<CalendarEventType>) => {
-			state.calendarEvents = [...state.calendarEvents, action.payload];
-		},
-		updateCalendarEvent: (state, action: PayloadAction<CalendarEventType>) => {
-			// state.calendarEvents = [...state.calendarEvents, action.payload];
-		},
-		removeCalendarEvent: (state, action: PayloadAction<string>) => {
-			// state.calendarEvents = [...state.calendarEvents, action.payload];
-		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(loadState.fulfilled, (state, action) => {
 			if (action.payload) {
-				const events = [...action.payload];
+				const [calendarEventTemplates, concludedCalendarEvents] =
+					action.payload;
 
-				return { ...state, calendarEvents: events };
+				let newState = { ...state };
+
+				if (calendarEventTemplates) {
+					newState = { ...newState, calendarEventTemplates };
+				}
+				if (concludedCalendarEvents) {
+					newState = { ...newState, concludedCalendarEvents };
+				}
+
+				return newState;
+			}
+		});
+		builder.addCase(addCalendarEventTemplate.fulfilled, (state, action) => {
+			if (action.payload) {
+				const calendarEventTemplates = [...action.payload];
+				return { ...state, calendarEventTemplates };
+			}
+		});
+		builder.addCase(updateCalendarEventTemplate.fulfilled, (state, action) => {
+			if (action.payload) {
+				const calendarEventTemplates = [...action.payload];
+				return { ...state, calendarEventTemplates };
+			}
+		});
+		builder.addCase(removeCalendarEventTemplate.fulfilled, (state, action) => {
+			if (action.payload) {
+				const calendarEventTemplates = [...action.payload];
+				return { ...state, calendarEventTemplates };
 			}
 		});
 	},
 });
 
-export const {
-	setCalendarData,
-	addCalendarEvent,
-	updateCalendarEvent,
-	removeCalendarEvent,
-} = eventCalendarSlice.actions;
+export const { setCalendarData } = eventCalendarSlice.actions;
 
 export const eventCalendarReducer = eventCalendarSlice.reducer;

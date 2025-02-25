@@ -6,7 +6,12 @@ import { useEffect } from "react";
 
 export const ScheduleCalendar: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const events = useAppSelector((state) => state.eventCalendar.calendarEvents);
+	const calendarEventTemplates = useAppSelector(
+		(state) => state.eventCalendar.calendarEventTemplates,
+	);
+	const concludedCalendarEvents = useAppSelector(
+		(state) => state.eventCalendar.concludedCalendarEvents,
+	);
 
 	useEffect(() => {
 		dispatch(loadState());
@@ -14,7 +19,8 @@ export const ScheduleCalendar: React.FC = () => {
 
 	return (
 		<Agenda
-			events={events}
+			concludedCalendarEvents={concludedCalendarEvents}
+			calendarEventTemplates={calendarEventTemplates}
 			onDayPress={(date) => dispatch(setCalendarData(formattedISOString(date)))}
 		/>
 	);

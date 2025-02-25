@@ -5,46 +5,50 @@ import {
 	type EventAgendaData,
 	transformEventsForAgenda,
 } from "@/src/entities/agenda";
-import type { CalendarEventType } from "@/src/entities/event-calendar";
+import type {
+	CalendarEventTemplate,
+	ConcludedCalendarEvent,
+} from "@/src/entities/event-calendar";
 import { addMonths } from "date-fns";
 
 import { AgendaEmpty } from "./AgendaEmpty";
 import { AgendaItem } from "./AgendaItem";
-import { formattedDateFormat } from "@/src/shared/utils";
 
 export interface AgendaProps {
-	events: CalendarEventType[];
 	onDayPress?: (date: Date) => void;
+	calendarEventTemplates: CalendarEventTemplate[];
+	concludedCalendarEvents: ConcludedCalendarEvent[];
 }
 
-export const Agenda: React.FC<AgendaProps> = ({ events, onDayPress }) => {
+export const Agenda: React.FC<AgendaProps> = ({
+	calendarEventTemplates,
+	onDayPress,
+}) => {
 	const [agendaItems, setAgendaItems] = useState<EventAgendaData>({});
 
 	useEffect(() => {
 		const start = new Date();
 		const end = addMonths(start, 1);
 
-		const agendaData = transformEventsForAgenda(events, start, end);
-		setAgendaItems((prev) => ({ ...prev, ...agendaData }));
-	}, [events]);
+		const agendaData = transformEventsForAgenda(
+			calendarEventTemplates,
+			start,
+			end,
+		);
+		setAgendaItems({ ...agendaData });
+	}, [calendarEventTemplates]);
 
 	const loadItemsForMonth = (month: DateData) => {
 		const start = new Date(month.timestamp);
 		const end = addMonths(start, 1);
 
-		const agendaData = transformEventsForAgenda(events, start, end);
+		const agendaData = transformEventsForAgenda(
+			calendarEventTemplates,
+			start,
+			end,
+		);
 
-		const filledAgendaData = { ...agendaData };
-
-		while (start <= end) {
-			const dateString = formattedDateFormat(start);
-			if (!filledAgendaData[dateString]) {
-				filledAgendaData[dateString] = [];
-			}
-			start.setDate(start.getDate() + 1);
-		}
-
-		setAgendaItems((prev) => ({ ...prev, ...filledAgendaData }));
+		setAgendaItems({ ...agendaData });
 	};
 
 	return (

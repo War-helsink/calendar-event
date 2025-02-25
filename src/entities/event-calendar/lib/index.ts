@@ -1,11 +1,11 @@
 import uuid from "react-native-uuid";
-import type { CalendarEventType } from "../model/types";
+import type { CalendarEventTemplate } from "../model/types";
 import { formattedISOString } from "@/src/shared/utils";
 import { endOfDay, startOfDay } from "date-fns";
 
 export function isOverlapping(
-	newEvent: CalendarEventType,
-	existingEvents: CalendarEventType[],
+	newEvent: CalendarEventTemplate,
+	existingEvents: CalendarEventTemplate[],
 ): boolean {
 	const newStart = new Date(newEvent.start);
 	const newEnd = new Date(newEvent.end);
@@ -17,7 +17,7 @@ export function isOverlapping(
 	});
 }
 
-export function createEventCalendar(date = new Date()): CalendarEventType {
+export function createEventCalendar(date = new Date()): CalendarEventTemplate {
 	return {
 		id: uuid.v4(),
 		title: "",
