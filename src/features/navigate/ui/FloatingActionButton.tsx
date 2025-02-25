@@ -2,6 +2,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { router, type Href } from "expo-router";
 import { ButtonOpacity } from "@/src/shared/ui";
 
+import { useThemeColor } from "@/src/shared/hooks/useThemeColor";
+
 export interface FloatingActionButtonProps {
 	href?: Href;
 }
@@ -9,6 +11,8 @@ export interface FloatingActionButtonProps {
 export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
 	href,
 }) => {
+	const backgroundColor = useThemeColor("primary");
+
 	return (
 		<ButtonOpacity
 			onPress={() => {
@@ -18,9 +22,10 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
 
 				router.push(href);
 			}}
-			className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-blue-500 justify-center items-center shadow-lg"
+			style={{ backgroundColor }}
+			className="absolute bottom-4 right-4 w-10 h-10 rounded-full justify-center items-center shadow-lg"
 		>
-			<Ionicons name="add" size={24} color="white" />
+			<Ionicons name="add" size={24} color="#fff" />
 		</ButtonOpacity>
 	);
 };

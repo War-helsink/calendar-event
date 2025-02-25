@@ -11,6 +11,7 @@ import { AgendaItem } from "./AgendaItem";
 
 import { transformEventsForAgenda } from "../lib";
 import type { EventAgendaData, EventAgendaItem } from "../model/types";
+import { useAgendaTheme } from "../hooks/theme";
 
 export interface AgendaProps {
 	onDayPress?: (date: Date) => void;
@@ -23,6 +24,7 @@ export const Agenda: React.FC<AgendaProps> = ({
 	calendarEventTemplates,
 	concludedCalendarEvents,
 }) => {
+	const theme = useAgendaTheme();
 	const [agendaItems, setAgendaItems] = useState<EventAgendaData>({});
 
 	useEffect(() => {
@@ -49,11 +51,12 @@ export const Agenda: React.FC<AgendaProps> = ({
 			end,
 		);
 
-		setAgendaItems({ ...agendaData });
+		setAgendaItems((prev) => ({ ...prev, ...agendaData }));
 	};
 
 	return (
 		<AgendaRN
+			theme={theme}
 			items={agendaItems}
 			onDayPress={(day: DateData) => onDayPress?.(new Date(day.timestamp))}
 			renderItem={(item: EventAgendaItem) => <AgendaItem item={item} />}

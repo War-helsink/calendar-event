@@ -21,7 +21,7 @@ export const ButtonOpacity: React.FC<ButtonOpacityProps> = ({
 	style,
 	disabled,
 }) => {
-	const color = useThemeColor("buttonText");
+	const color = useThemeColor("text");
 
 	return (
 		<TouchableOpacity

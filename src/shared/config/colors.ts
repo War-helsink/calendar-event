@@ -8,52 +8,46 @@ export const Colors = {
 		// Base
 		text: "#11181C",
 		background: "#F5F5F5",
-		tabIconSelected: "#FEC108",
-
-		// Calendar Colors
-		calendarDaySelected: "#FEC108",
-		calendarDayHighlighted: "#FEE89B",
 
 		// Input Colors
 		inputBackground: "#FFFFFF",
 		inputActiveBackground: "#F5F5F5",
 		inputPlaceholderColor: "#A4A1B7",
 
-		// Button Colors
-		buttonBackground: "#FFD33D",
-		buttonUnderlay: "#FFC107",
-		buttonText: "#fff",
+		// Base colors
+		primary: "#54B8ED",
+		success: "#2dd55b",
+		warning: "#ffc409",
+		danger: "#c5000f",
+		light: "#f4f5f8",
+		medium: "#DBE1E7",
+		strong: "#B8C1CC",
+		dark: "#222428",
 
-		//Toast
-		toastSuccess: "#2dd55b",
-		toastError: "#c5000f",
-		toastInfo: "#636469",
-		toastText: "#fff",
+		toolbarBackground: "#fafafb",
+		reservationsBackground: "#F2F4F5",
 	},
 	dark: {
 		// Base
 		text: "#ECEDEE",
 		background: "#121212",
-		tabIconSelected: "#FFD700",
-
-		// Calendar Colors
-		calendarDaySelected: "#FFD700",
-		calendarDayHighlighted: "#D8A900",
 
 		// Input Colors
 		inputBackground: "#1E1E1E",
 		inputActiveBackground: "#282828",
 		inputPlaceholderColor: "#959699",
 
-		// Button Colors
-		buttonBackground: "#FFC107",
-		buttonUnderlay: "#E0A800",
-		buttonText: "#fff", 
+		// Base colors
+		primary: "#4d8dff",
+		success: "#2dd55b",
+		warning: "#ffce31",
+		danger: "#f24c58",
+		light: "#222428",
+		medium: "#989aa2",
+		strong: "#B8C1CC",
+		dark: "#f4f5f8",
 
-		//Toast
-		toastSuccess: "#2dd55b",
-		toastError: "#f24c58",
-		toastInfo: "#989aa2",
-		toastText: "#fff",
+		toolbarBackground: "#1f1f1f",
+		reservationsBackground: "#2f2f2f",
 	},
 };

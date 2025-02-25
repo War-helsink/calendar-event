@@ -5,10 +5,10 @@ import ToastMessage, {
 import { useThemeColor } from "../hooks/useThemeColor";
 
 export const Toast: React.FC = () => {
-	const colorSuccess = useThemeColor("toastSuccess");
-	const colorError = useThemeColor("toastError");
-	const colorInfo = useThemeColor("toastInfo");
-	const color = useThemeColor("toastText");
+	const colorSuccess = useThemeColor("success");
+	const colorError = useThemeColor("danger");
+	const colorInfo = useThemeColor("medium");
+	const color = "#fff";
 
 	const toastConfig: ToastConfig = {
 		success: (internalState) => (

@@ -1,4 +1,3 @@
-export * from "./Button";
 export * from "./ButtonOpacity";
 export * from "./Input";
 export * from "./Select";
