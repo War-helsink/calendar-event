@@ -1,15 +1,23 @@
 import { createTransform } from "redux-persist";
-import type { State } from "./slice";
+
+import { type State, initialState } from "./slice";
+import { syncCalendarEvents } from "../lib/loading";
 
 export const eventCalendarTransform = createTransform(
 	(inboundState: State, key) => {
-		console.log("Transform inbound", key, inboundState);
-		return inboundState;
+		return {
+			concludedCalendarEvents: inboundState.concludedCalendarEvents,
+			calendarEventTemplates: inboundState.calendarEventTemplates,
+		};
 	},
 	(outboundState: State, key) => {
-		console.log("Transform outbound", key, outboundState);
+		const calendarEvents = syncCalendarEvents(outboundState);
 
-		return outboundState;
+		return {
+			calendarData: initialState.calendarData,
+			concludedCalendarEvents: calendarEvents.concludedCalendarEvents,
+			calendarEventTemplates: calendarEvents.calendarEventTemplates,
+		};
 	},
 	{ whitelist: ["eventCalendar"] },
 );

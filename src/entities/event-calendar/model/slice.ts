@@ -11,7 +11,7 @@ export interface State {
 	calendarEventTemplates: CalendarEventTemplate[];
 }
 
-const initialState: State = {
+export const initialState: State = {
 	calendarData: formattedISOString(startOfDay(new Date())),
 	calendarEventTemplates: [],
 	concludedCalendarEvents: [],

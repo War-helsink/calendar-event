@@ -10,6 +10,8 @@ import {
 	type CalendarEventTemplate,
 } from "@/src/entities/event-calendar";
 import { useAppDispatch, store } from "@/src/provider/store";
+import { createMultipleDayEvents } from "../lib";
+import forEach from "lodash/forEach";
 
 export const useCalendarEventTemplateChanges = () => {
 	const dispatch = useAppDispatch();
@@ -26,7 +28,11 @@ export const useCalendarEventTemplateChanges = () => {
 						currentState.eventCalendar.calendarEventTemplates,
 					)
 				) {
-					dispatch(addCalendarEvent(event));
+					const eventsToAdd = createMultipleDayEvents(event);
+
+					forEach(eventsToAdd, (newEvent) => {
+						dispatch(addCalendarEvent(newEvent));
+					});
 
 					return Toast.show({
 						type: "success",
@@ -57,7 +63,7 @@ export const useCalendarEventTemplateChanges = () => {
 					currentState.eventCalendar.calendarEventTemplates.filter(
 						(item) => item.id !== event.id,
 					);
-				
+
 				if (!isOverlapping(event, calendarEventTemplates)) {
 					dispatch(updateCalendarEvent(event));
 
