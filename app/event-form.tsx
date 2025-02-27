@@ -1,5 +1,6 @@
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import { CalendarEventForm } from "@/src/widgets/calendar";
+import { ThemedSafeAreaView } from "@/src/shared/ui";
 
 import { useRoute } from "@react-navigation/native";
 import { useMemo } from "react";
@@ -12,7 +13,13 @@ const EventFormScreen: React.FC = () => {
 		return item ? JSON.parse(item) : null;
 	}, [route]);
 
-	return (
+	const isAndroid = Platform.OS === "android";
+
+	return isAndroid ? (
+		<ThemedSafeAreaView className="h-full w-full">
+			<CalendarEventForm calendarEventTemplate={calendarEventTemplate} />
+		</ThemedSafeAreaView>
+	) : (
 		<View className="h-full w-full">
 			<CalendarEventForm calendarEventTemplate={calendarEventTemplate} />
 		</View>

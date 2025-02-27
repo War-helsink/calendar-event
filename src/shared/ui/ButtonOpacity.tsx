@@ -1,4 +1,4 @@
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Platform } from "react-native";
 import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
 import { Text } from "./Text";
 
@@ -26,7 +26,9 @@ export const ButtonOpacity: React.FC<ButtonOpacityProps> = ({
 	return (
 		<TouchableOpacity
 			onPress={() => {
-				impactAsync(ImpactFeedbackStyle.Soft);
+				if (Platform.OS !== "web") {
+					impactAsync(ImpactFeedbackStyle.Soft);
+				}
 				onPress?.();
 			}}
 			disabled={disabled}

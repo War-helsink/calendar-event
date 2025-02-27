@@ -1,10 +1,16 @@
 import { View } from "react-native";
-import { Text } from "@/src/shared/ui";
+import { useThemeColor } from "@/src/shared/hooks/useThemeColor";
+import { memo } from "react";
 
-export const AgendaEmpty: React.FC = () => {
+export const AgendaEmpty: React.FC = memo(() => {
+	const backgroundColor = useThemeColor("medium");
+
 	return (
-		<View className="h-24 p-2.5 flex justify-center items-center">
-			<Text>There are no events on this day.</Text>
-		</View>
+		<View
+			className="h-[1px] w-full rounded-full my-14"
+			style={{ backgroundColor }}
+		/>
 	);
-};
+});
+
+AgendaEmpty.displayName = "AgendaEmpty";

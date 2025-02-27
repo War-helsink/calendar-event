@@ -17,7 +17,7 @@ export const useCalendarEventTemplateChanges = () => {
 	const dispatch = useAppDispatch();
 
 	const addCalendarEventTemplate = useCallback(
-		async (event: CalendarEventTemplate) => {
+		(event: CalendarEventTemplate) => {
 			const result = CalendarEventTemplateSchema.safeParse(event);
 			if (result.success) {
 				const currentState = store.getState();

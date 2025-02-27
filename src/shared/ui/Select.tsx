@@ -48,6 +48,7 @@ export const Select: React.FC<SelectProps> = ({
 						borderRadius: 12,
 						padding: 16,
 						backgroundColor,
+						cursor: "pointer",
 					},
 					style,
 				]}

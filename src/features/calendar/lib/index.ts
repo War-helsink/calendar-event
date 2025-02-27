@@ -7,7 +7,14 @@ import type {
 } from "@/src/entities/event-calendar";
 import { formattedDateFormat, formattedISOString } from "@/src/shared/utils";
 import forEach from "lodash/forEach";
-import { startOfDay, addDays, addMonths } from "date-fns";
+import {
+	startOfDay,
+	addDays,
+	addMonths,
+	eachDayOfInterval,
+	startOfMonth,
+} from "date-fns";
+import type { DateFormat } from "@/src/shared/model";
 
 export function transformEventsForAgenda(
 	calendarEventTemplates: CalendarEventTemplate[],
@@ -80,6 +87,30 @@ export function transformEventsForAgenda(
 
 			if (repeatType === "none") break;
 			occurrenceDate = getNextOccurrence(occurrenceDate, repeatType);
+		}
+	});
+
+	forEach(agendaData, (events, date) => {
+		agendaData[date as DateFormat] = events.sort((a, b) => {
+			const startA = new Date(a.start).getTime();
+			const startB = new Date(b.start).getTime();
+			const endA = new Date(a.end).getTime();
+			const endB = new Date(b.end).getTime();
+
+			return startA !== startB ? startA - startB : endA - endB;
+		});
+	});
+
+	const allDates = eachDayOfInterval({
+		start: startOfMonth(viewStart),
+		end: viewEnd,
+	});
+
+	forEach(allDates, (date) => {
+		const formattedDate = formattedDateFormat(date);
+
+		if (!agendaData[formattedDate]) {
+			agendaData[formattedDate] = [];
 		}
 	});
 

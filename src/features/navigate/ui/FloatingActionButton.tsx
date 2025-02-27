@@ -24,6 +24,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
 			}}
 			style={{ backgroundColor }}
 			className="absolute bottom-4 right-4 w-10 h-10 rounded-full justify-center items-center shadow-lg"
+			asChild
 		>
 			<Ionicons name="add" size={24} color="#fff" />
 		</ButtonOpacity>
