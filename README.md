@@ -1,50 +1,87 @@
-# Welcome to your Expo app 👋
+# Calendar Event Scheduling App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Project Overview
 
-## Get started
+The Calendar Event Scheduling App is a mobile scheduling application that allows users to create, manage, and repeat events on specific dates. Designed for seamless operation across all Expo-supported platforms (iOS, Android, and Web), this app provides an intuitive and efficient way to keep track of your schedule.
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+- **Event Creation:**
 
-2. Start the app
+  - Create new events by entering an event name, setting a time, and selecting a repeat option.
+  - Repeat options available:
+    - **Weekly:** The event recurs every week.
+    - **Bi-weekly:** The event recurs every other week.
+    - **Monthly:** The event recurs every month.
+  - Users must click the "Save" button to confirm event creation.
 
-   ```bash
-    npx expo start
-   ```
+- **Event Management:**
 
-In the output, you'll find options to open the app in a
+  - **Edit Events:** Modify the name, time, or repeat option of existing events.
+  - **Delete Events:** Remove events by clicking the delete button.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Event Display & Restrictions:**
+  - Dates with scheduled events are visually highlighted.
+  - Past events can be viewed but cannot be created or modified.
+  - Overlapping events (conflicting time slots) are not permitted.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Technology Stack
 
-## Get a fresh project
+- **React Native (Expo):** For building cross-platform mobile apps (iOS, Android, and Web).
+- **State Management:** Redux with Redux Toolkit and Redux Persist.
+- **Routing & Navigation:** Expo Router and React Navigation.
+- **Styling:** Tailwind CSS with NativeWind.
+- **Additional Libraries:** Includes utilities like date-fns, formik, lodash, and various Expo modules (vector icons, splash screen, etc.).
+- **Testing & Linting:** Jest, ESLint, and TypeScript.
 
-When you're ready, run:
+## Installation Instructions
+
+### 1. Clone the Repository
 
 ```bash
-npm run reset-project
+git clone <repository_url>
+cd <project_directory>
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Install Dependencies
 
-## Learn more
+After cloning the repository, install the project dependencies using your preferred package manager.
 
-To learn more about developing your project with Expo, look at the following resources:
+- **npm**
+- **pnpm**
+- **yarn**
+- **bun**
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+   bun install
+```
 
-## Join the community
+### 3. Running the Application
 
-Join our community of developers creating universal apps.
+Start the application by running:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+   bun run start
+```
+
+### Platform-specific Commands
+
+Depending on the target platform, use the following flags:
+
+- For iOS:
+
+```bash
+   bun run start --ios
+```
+
+- For Android:
+
+```bash
+   bun run start --android
+```
+
+- For Web:
+
+```bash
+   bun run start --web
+```
