@@ -20,8 +20,8 @@ export const DateTimePickerGroup: React.FC<DateTimePickerGroupProps> = ({
 	const errorColor = useThemeColor("danger");
 
 	return (
-		<View className="gap-2">
-			<View className="flex-row items-center justify-between">
+		<View className="gap-2 z-auto">
+			<View className="flex-row items-center justify-between z-auto">
 				<Text
 					className="font-bold text-lg w-20"
 					style={error && { color: errorColor }}

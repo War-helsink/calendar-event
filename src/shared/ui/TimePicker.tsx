@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { View, TouchableHighlight } from "react-native";
-import type { ViewStyle, StyleProp } from "react-native";
+import type { ViewStyle, StyleProp, ColorValue } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Text } from "./Text";
 
@@ -12,12 +12,14 @@ export interface TimePickerProps {
 	date?: Date;
 	setDate?: (date: Date) => void;
 	style?: StyleProp<ViewStyle>;
+	textColor?: ColorValue | false;
 	mode?: "date" | "time";
 }
 
 export const TimePicker: React.FC<TimePickerProps> = ({
 	className,
 	style,
+	textColor,
 	mode = "time",
 	date = new Date(),
 	setDate,
@@ -41,7 +43,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
 				underlayColor={underlayColor}
 				style={[{ backgroundColor }, style]}
 			>
-				<Text className="text-center" style={{ color }}>
+				<Text className="text-center" style={{ color: textColor || color }}>
 					{mode === "time" ? formattedTime(date) : formattedDate(date)}
 				</Text>
 			</TouchableHighlight>
