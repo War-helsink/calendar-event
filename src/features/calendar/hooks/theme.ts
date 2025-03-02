@@ -33,7 +33,6 @@ export const useCalendarTheme = () => {
 
 export const useAgendaTheme = () => {
 	const isDarkMode = useColorScheme() === "dark";
-
 	return useMemo(() => {
 		const themeColors = isDarkMode ? Colors.dark : Colors.light;
 		return {
