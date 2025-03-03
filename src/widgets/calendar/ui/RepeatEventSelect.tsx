@@ -18,9 +18,9 @@ export const RepeatEventSelect: React.FC<RepeatEventSelectProps> = ({
 			<Text className="font-bold text-lg">Repeat</Text>
 			<Select
 				className="mb-4"
-				data={RepeatOptions}
-				value={repeat}
-				onChange={(item) => setRepeat?.(item.value)}
+				items={RepeatOptions}
+				selectedValue={repeat}
+				onValueChange={(value) => setRepeat?.(value as RepeatType)}
 			/>
 		</View>
 	);

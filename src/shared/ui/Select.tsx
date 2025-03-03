@@ -1,69 +1,77 @@
+import {
+	View,
+	type TextStyle,
+	type StyleProp,
+	type ViewStyle,
+	Platform,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { cn } from "@/src/shared/utils";
-import { View } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
 import { useThemeColor } from "@/src/shared/hooks/useThemeColor";
+
+type ValueSelectItem = string | number;
+
+export interface SelectItem {
+	label: string;
+	value: ValueSelectItem;
+}
 
 export interface SelectProps
 	extends Omit<
-			React.ComponentProps<typeof Dropdown>,
-			"labelField" | "valueField"
-		>,
-		Partial<
-			Pick<React.ComponentProps<typeof Dropdown>, "labelField" | "valueField">
-		> {
+		React.ComponentProps<typeof Picker>,
+		"onValueChange" | "placeholder"
+	> {
+	items: SelectItem[];
 	className?: string;
+	containerStyle?: StyleProp<ViewStyle>;
+	style?: StyleProp<TextStyle>;
+	selectedValue: ValueSelectItem;
+	onValueChange: (itemValue: ValueSelectItem, itemIndex: number) => void;
 }
 
 export const Select: React.FC<SelectProps> = ({
-	labelField = "label",
-	valueField = "value",
+	items,
 	className,
-	style,
 	containerStyle,
+	style,
+	selectedValue,
+	onValueChange,
 	...props
 }) => {
-	const color = useThemeColor("text");
+	const textColor = useThemeColor("text");
 	const backgroundColor = useThemeColor("inputBackground");
-	const backgroundActiveColor = useThemeColor("inputActiveBackground");
-	const backgroundPlaceholderColor = useThemeColor("inputPlaceholderColor");
 
 	return (
-		<View className={cn("w-full", className)}>
-			<Dropdown
-				{...props}
-				labelField={labelField}
-				valueField={valueField}
-				selectedTextStyle={{
-					color,
+		<View className={cn("w-full", className)} style={containerStyle}>
+			<View
+				className={cn("rounded-xl", Platform.OS === "android" && "px-2")}
+				style={{
+					backgroundColor,
 				}}
-				itemContainerStyle={{
-					borderRadius: 12,
-				}}
-				itemTextStyle={{
-					color,
-				}}
-				activeColor={backgroundActiveColor}
-				style={[
-					{
-						borderRadius: 12,
-						padding: 16,
-						backgroundColor,
-						cursor: "pointer",
-					},
-					style,
-				]}
-				placeholderStyle={{
-					color: backgroundPlaceholderColor,
-				}}
-				containerStyle={[
-					{
-						backgroundColor,
-						borderWidth: 0,
-						borderRadius: 12,
-					},
-					containerStyle,
-				]}
-			/>
+			>
+				<Picker
+					mode="dropdown"
+					selectedValue={selectedValue}
+					onValueChange={onValueChange}
+					style={[
+						{ color: textColor, backgroundColor },
+						Platform.OS === "web" && { padding: 16, borderRadius: 12 },
+						style,
+					]}
+					dropdownIconColor={textColor}
+					{...props}
+				>
+					{items.map((item) => (
+						<Picker.Item
+							key={item.value}
+							label={item.label}
+							value={item.value}
+							color={textColor}
+							style={{ backgroundColor }}
+						/>
+					))}
+				</Picker>
+			</View>
 		</View>
 	);
 };
